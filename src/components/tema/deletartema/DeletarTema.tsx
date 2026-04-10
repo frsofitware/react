@@ -5,20 +5,29 @@ import type Tema from "../../../model/Tema";
 import { buscar, deletar } from "../../../services/Service";
 import { ClipLoader } from "react-spinners";
 
+
 function DeletarTema() {
 
+    // Objeto responsável por redirecionar o usuário para uma outra rota
     const navigate = useNavigate();
     
+    // Estado para controlar o Loader (animação de carregamento)
     const [isLoading, setIsLoading] = useState<boolean>(false);
     
+    // Estado que irá receber os dados do tema que será persistido no Backend
     const [tema, setTema] = useState<Tema>({} as Tema);
     
+    // Acessa o token do usuário autenticado
     const { usuario, handleLogout } = useContext(AuthContext);
     
+    // Cria um objeto para armazenar o token
     const token = usuario.token;
     
+    // Acessar o parâmetro id da rota de edição do tema
     const { id } = useParams<{ id: string }>();
     
+    // Função para buscar um tema pelo id no backend
+    // que será atualizado no form
     async function buscarTemaPorId(){
         try{
         
@@ -37,6 +46,7 @@ function DeletarTema() {
         }
     }
     
+    // Cria um useEffect para monitorar o token
     useEffect( () => {
         if(token === ''){
             alert('Você precisa estar logado!');
@@ -44,6 +54,7 @@ function DeletarTema() {
         }
     }, [token])
 
+    // Cria um useEffect para monitorar o id (rota)
     useEffect( () => {
         if(id !== undefined){
             buscarTemaPorId();
